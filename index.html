@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Yakubu Nuhu Secondary School</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --maroon:#800000;
+      --dark:#333;
+      --muted:#f4f4f9;
+      --glass: rgba(255,255,255,0.95);
+      --success:#2e8b57;
+      --danger:#d9534f;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--muted);
+      color:#222;
+      -webkit-font-smoothing:antialiased;
+    }
+    header{
+      background:var(--maroon);
+      color:#fff;
+      padding:18px 12px;
+      text-align:center;
+    }
+    header p.small{margin:6px 0 0;font-size:0.9rem;opacity:0.95}
+    nav{
+      background:var(--dark);
+      display:flex;
+      justify-content:center;
+      gap:6px;
+      padding:8px;
+      flex-wrap:wrap;
+    }
+    nav button{
+      background:transparent;
+      color:#fff;
+      border:0;
+      padding:10px 14px;
+      cursor:pointer;
+      border-radius:6px;
+      font-size:15px;
+    }
+    nav button:hover{background:rgba(255,255,255,0.08)}
+    main{padding:18px; max-width:1100px; margin:0 auto;}
+    section{display:none; background:var(--glass); padding:18px; border-radius:8px; margin-bottom:18px; box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+    section.active{display:block}
+    h2{margin-top:0}
+    form .row{display:flex; gap:12px; flex-wrap:wrap}
+    .col{flex:1; min-width:200px}
+    label{display:block; margin:8px 0 6px; font-weight:600}
+    input[type="text"], input[type="password"], select, textarea {
+      width:100%; padding:10px; border:1px solid #ccc; border-radius:6px;
+    }
+    .btn{background:var(--maroon); color:#fff; border:0; padding:10px 14px; cursor:pointer; border-radius:6px}
+    .btn.secondary{background:#777}
+    .btn.warn{background:var(--danger)}
+    .muted{color:#666;font-size:0.95rem}
+    .card{background:#fff;padding:12px;border-radius:6px;border:1px solid #eee}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{padding:8px;border:1px solid #eee;text-align:left;font-size:0.95rem}
+    th{background:var(--maroon);color:#fff}
+    .actions button{margin-right:6px}
+    .small{font-size:0.9rem}
+    .pill{display:inline-block;padding:6px 10px;border-radius:20px;font-size:0.85rem;background:#eee}
+    .status-pending{background:#ffefc2;color:#7a5200}
+    .status-approved{background:#d4f6e1;color:var(--success)}
+    .status-rejected{background:#f8d7da;color:var(--danger)}
+    .messages{max-height:250px;overflow:auto;padding:8px; border:1px solid #eee;background:#fff;border-radius:6px}
+    .message{padding:8px;border-bottom:1px dashed #eee}
+    .center{text-align:center}
+    footer{padding:12px;text-align:center;color:#777;font-size:0.9rem}
+    @media (max-width:720px){
+      nav{gap:4px;padding:6px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Yakubu Nuhu Secondary School</h1>
+    <p class="small">Motto: Knowledge is Power</p>
+    <p class="small">Email: yakubundahi888@gmail.com | Phone: 09012921797</p>
+  </header>
+
+  <nav>
+    <button id="navHome">Home</button>
+    <button id="navRegister">Student Registration</button>
+    <button id="navStudentLogin">Student Login</button>
+    <button id="navAdmin">Admin</button>
+  </nav>
+
+  <main>
+    <!-- HOME -->
+    <section id="homeSection" class="active">
+      <h2>Welcome</h2>
+      <p>Providing quality education for future leaders. Use the menu above to register, login as a student, or login as admin.</p>
+      <div class="card" style="margin-top:12px">
+        <h3 class="small">How registration works</h3>
+        <ol>
+          <li>Student registers and chooses Science or Art and creates password.</li>
+          <li>Registration status becomes <span class="pill status-pending">Pending</span> until admin approves.</li>
+          <li>Admin can send messages or post news. Students will see them in their portal when they login.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- REGISTRATION -->
+    <section id="registerSection">
+      <h2>Student Registration</h2>
+      <form id="registrationForm">
+        <div class="row">
+          <div class="col">
+            <label>Full Name</label>
+            <input id="reg_name" type="text" required placeholder="e.g. John Doe">
+          </div>
+          <div class="col">
+            <label>Choose Stream</label>
+            <select id="reg_stream" required>
+              <option value="">-- Select --</option>
+              <option value="Science">Science</option>
+              <option value="Art">Art</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label>Create Password (student will use this to login)</label>
+            <input id="reg_pass" type="password" required placeholder="Make it memorable">
+          </div>
+          <div class="col">
+            <label>Payment Option</label>
+            <select id="reg_package" required>
+              <option value="">-- Select --</option>
+              <option value="10000">₦10,000 (Tuition Only)</option>
+              <option value="45000">₦45,000 (With Uniform & Textbooks)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top:8px">
+          <button class="btn" type="submit">Submit Registration</button>
+        </div>
+
+        <p id="reg_feedback" class="muted small"></p>
+      </form>
+    </section>
+
+    <!-- STUDENT LOGIN / PORTAL -->
+    <section id="studentLoginSection">
+      <h2>Student Login</h2>
+
+      <!-- login form -->
+      <div id="studentLoginFormCard" class="card">
+        <form id="studentLoginForm">
+          <div class="row">
+            <div class="col">
+              <label>Reg. No</label>
+              <input id="login_regno" type="text" placeholder="e.g. YNSS001" required>
+            </div>
+            <div class="col">
+              <label>Password</label>
+              <input id="login_pass" type="password" required>
+            </div>
+          </div>
+          <div style="margin-top:8px">
+            <button class="btn" type="submit">Login</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- student dashboard (hidden until login) -->
+      <div id="studentDashboard" style="display:none; margin-top:12px">
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:12px">
+            <div>
+              <h3 id="stu_name">Student Name</h3>
+              <p class="muted small" id="stu_regno">Reg No: -</p>
+            </div>
+            <div>
+              <span id="stu_status" class="pill status-pending">Pending</span>
+              <div style="margin-top:10px;text-align:right">
+                <button id="studentLogoutBtn" class="btn secondary">Logout</button>
+              </div>
+            </div>
+          </div>
+
+          <hr/>
+
+          <h4>Details</h4>
+          <div class="row">
+            <div class="col">
+              <p><strong>Stream:</strong> <span id="stu_stream"></span></p>
+              <p><strong>Fee:</strong> <span id="stu_fee"></span></p>
+            </div>
+            <div class="col">
+              <p><strong>Subjects:</strong></p>
+              <div id="stu_subjects" class="card small"></div>
+            </div>
+          </div>
+
+          <hr/>
+
+          <div style="display:flex; gap:12px; flex-wrap:wrap">
+            <div style="flex:1; min-width:280px">
+              <h4>Messages (from Admin)</h4>
+              <div id="stu_messages" class="messages">
+                <!-- messages here -->
+              </div>
+            </div>
+
+            <div style="flex:1; min-width:280px">
+              <h4>News / Announcements</h4>
+              <div id="stu_news" class="messages"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADMIN LOGIN & DASHBOARD -->
+    <section id="adminSection">
+      <h2>Admin Login</h2>
+
+      <div id="adminLoginCard" class="card">
+        <form id="adminLoginForm">
+          <div class="row">
+            <div class="col">
+              <label>Username</label>
+              <input id="admin_user" type="text" placeholder="Admin username" required>
+            </div>
+            <div class="col">
+              <label>Password</label>
+              <input id="admin_pass" type="password" placeholder="Admin password" required>
+            </div>
+          </div>
+          <div style="margin-top:8px">
+            <button class="btn" type="submit">Login as Admin</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- admin dashboard (hidden until admin login) -->
+      <div id="adminDashboard" style="display:none; margin-top:12px">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px">
+          <div>
+            <h3>Admin Dashboard</h3>
+            <p class="muted small">Logged in as <strong>Ya11@kubu</strong></p>
+          </div>
+          <div style="text-align:right">
+            <button id="adminLogoutBtn" class="btn secondary">Logout</button>
+          </div>
+        </div>
+
+        <!-- news form -->
+        <div class="card">
+          <h4>Post News / Announcement (Visible to all students)</h4>
+          <form id="newsForm">
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap">
+              <input id="news_title" type="text" placeholder="Title" style="flex:2" required>
+              <input id="news_date" type="text" placeholder="Date (optional)" style="flex:1">
+            </div>
+            <div style="margin-top:8px">
+              <textarea id="news_body" rows="3" placeholder="Message" required></textarea>
+            </div>
+            <div style="margin-top:8px">
+              <button class="btn" type="submit">Post News</button>
+            </div>
+          </form>
+        </div>
+
+        <div style="margin-top:12px" class="card">
+          <h4>Registered Students</h4>
+          <p class="muted small">Approve, Reject, view details, or send a direct message.</p>
+          <div id="adminControls" style="margin-top:8px"></div>
+
+          <table id="studentsTable" aria-live="polite">
+            <thead>
+              <tr>
+                <th>Reg No</th>
+                <th>Name</th>
+                <th>Stream</th>
+                <th>Subjects</th>
+                <th>Fee</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="studentsTableBody">
+              <!-- rows injected -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    &copy; 2025 Yakubu Nuhu Secondary School. All rights reserved.
+  </footer>
+
+  <script>
+    /**********************
+     * Data helpers
+     **********************/
+    const STORAGE_KEYS = {
+      STUDENTS: "ynss_students_v1",
+      NEWS: "ynss_news_v1"
+    };
+
+    function loadStudents(){
+      return JSON.parse(localStorage.getItem(STORAGE_KEYS.STUDENTS) || "[]");
+    }
+    function saveStudents(arr){
+      localStorage.setItem(STORAGE_KEYS.STUDENTS, JSON.stringify(arr));
+    }
+    function loadNews(){
+      return JSON.parse(localStorage.getItem(STORAGE_KEYS.NEWS) || "[]");
+    }
+    function saveNews(arr){
+      localStorage.setItem(STORAGE_KEYS.NEWS, JSON.stringify(arr));
+    }
+
+    function generateRegNo(){
+      const students = loadStudents();
+      const next = students.length + 1;
+      return "YNSS" + String(next).padStart(3,"0");
+    }
+
+    // subject lists (match your requirements: Science = 12, Art = 11; compulsory present)
+    const compulsory = ["English", "Mathematics", "Civic Education", "CRS"];
+    const scienceSubjects = ["Physics","Chemistry","Biology","Computer Studies","Agriculture","Further Maths","Geography","Economics","Technical Drawing","Health Education","Home Economics","Fine Motor"]; // ensure count ~12 with compulsory = 12
+    const artSubjects = ["Government","Literature","Economics","History","Fine Art","Geography","French","Commerce"]; // with compulsory totals ~11
+
+    function getSubjectsForStream(stream){
+      if(stream === "Science"){
+        // ensure total=12 including compulsory (we will slice/pick to match totals)
+        let s = [...compulsory, ...scienceSubjects];
+        return s.slice(0, 12);
+      } else {
+        let s = [...compulsory, ...artSubjects];
+        return s.slice(0, 11);
+      }
+    }
+
+    /**********************
+     * Navigation handling
+     **********************/
+    const sections = {
+      home: document.getElementById("homeSection"),
+      register: document.getElementById("registerSection"),
+      studentLogin: document.getElementById("studentLoginSection"),
+      admin: document.getElementById("adminSection")
+    };
+
+    function showSection(key){
+      Object.values(sections).forEach(s => s.classList.remove("active"));
+      if(sections[key]) sections[key].classList.add("active");
+      window.scrollTo({top:0,behavior:"smooth"});
+    }
+
+    document.getElementById("navHome").addEventListener("click", ()=> showSection("home"));
+    document.getElementById("navRegister").addEventListener("click", ()=> showSection("register"));
+    document.getElementById("navStudentLogin").addEventListener("click", ()=> showSection("studentLogin"));
+    document.getElementById("navAdmin").addEventListener("click", ()=> showSection("admin"));
+
+    // show home initially
+    showSection("home");
+
+    /**********************
+     * Registration
+     **********************/
+    const regForm = document.getElementById("registrationForm");
+    regForm.addEventListener("submit", (e)=>{
+      e.preventDefault();
+      const name = document.getElementById("reg_name").value.trim();
+      const stream = document.getElementById("reg_stream").value;
+      const password = document.getElementById("reg_pass").value;
+      const packageOpt = document.getElementById("reg_package").value;
+
+      if(!name || !stream || !password || !packageOpt){
+        alert("Please fill all fields.");
+        return;
+      }
+
+      const regNo = generateRegNo();
+      const subjects = getSubjectsForStream(stream);
+      const newStudent = {
+        regNo,
+        name,
+        stream,
+        password,
+        package: packageOpt,
+        feeDisplay: packageOpt === "10000" ? "₦10,000 (Tuition Only)" : "₦45,000 (With Uniform & Textbooks)",
+        subjects,
+        status: "Pending", // Pending | Approved | Rejected
+        messages: [] // admin messages to this student
+      };
+
+      const students = loadStudents();
+      students.push(newStudent);
+      saveStudents(students);
+
+      document.getElementById("reg_feedback").textContent = `Registration submitted. Your Reg No is ${regNo}. Wait for admin approval.`;
+      regForm.reset();
+      // auto scroll to show feedback
+      document.getElementById("reg_feedback").scrollIntoView({behavior:"smooth"});
+    });
+
+    /**********************
+     * Student login & portal
+     **********************/
+    let currentStudent = null;
+
+    document.getElementById("studentLoginForm").addEventListener("submit", (e)=>{
+      e.preventDefault();
+      const regno = document.getElementById("login_regno").value.trim();
+      const pass = document.getElementById("login_pass").value;
+
+      const students = loadStudents();
+      const stu = students.find(s => s.regNo.toLowerCase() === regno.toLowerCase() && s.password === pass);
+
+      if(!stu){
+        alert("Invalid Reg No or Password.");
+        return;
+      }
+      currentStudent = stu;
+      showStudentDashboard();
+    });
+
+    function showStudentDashboard(){
+      document.getElementById("studentLoginFormCard").style.display = "none";
+      const dash = document.getElementById("studentDashboard");
+      dash.style.display = "block";
+
+      document.getElementById("stu_name").textContent = currentStudent.name;
+      document.getElementById("stu_regno").textContent = "Reg No: " + currentStudent.regNo;
+      document.getElementById("stu_stream").textContent = currentStudent.stream;
+      document.getElementById("stu_fee").textContent = currentStudent.feeDisplay;
+      document.getElementById("stu_subjects").textContent = currentStudent.subjects.join(", ");
+
+      // status pill
+      const statusEl = document.getElementById("stu_status");
+      statusEl.textContent = currentStudent.status;
+      statusEl.className = "pill";
+      if(currentStudent.status === "Pending") statusEl.classList.add("status-pending");
+      if(currentStudent.status === "Approved") statusEl.classList.add("status-approved");
+      if(currentStudent.status === "Rejected") statusEl.classList.add("status-rejected");
+
+      // messages
+      refreshStudentMessages();
+
+      // show news
+      refreshStudentNews();
+
+      showSection("studentLogin");
+    }
+
+    function refreshStudentMessages(){
+      const box = document.getElementById("stu_messages");
+      box.innerHTML = "";
+      if(!currentStudent || !currentStudent.messages || currentStudent.messages.length===0){
+        box.innerHTML = "<p class='muted small'>No messages yet.</p>";
+        return;
+      }
+      currentStudent.messages.slice().reverse().forEach(m=>{
+        const div = document.createElement("div");
+        div.className = "message";
+        div.innerHTML = `<strong>${m.from}</strong> <span class="muted small">(${m.date})</span><div>${m.text}</div>`;
+        box.appendChild(div);
+      });
+    }
+
+    function refreshStudentNews(){
+      const newsBox = document.getElementById("stu_news");
+      const news = loadNews();
+      newsBox.innerHTML = "";
+      if(news.length === 0){
+        newsBox.innerHTML = "<p class='muted small'>No news yet.</p>";
+        return;
+      }
+      news.slice().reverse().forEach(n=>{
+        const div = document.createElement("div");
+        div.className = "message";
+        div.innerHTML = `<strong>${n.title}</strong> <span class="muted small">(${n.date || ""})</span><div>${n.body}</div>`;
+        newsBox.appendChild(div);
+      });
+    }
+
+    document.getElementById("studentLogoutBtn").addEventListener("click", ()=>{
+      currentStudent = null;
+      document.getElementById("studentLoginFormCard").style.display = "block";
+      document.getElementById("studentDashboard").style.display = "none";
+      document.getElementById("studentLoginForm").reset();
+      alert("Logged out.");
+      showSection("home");
+    });
+
+    /**********************
+     * Admin login & dashboard
+     **********************/
+    const ADMIN = { username: "Ya11@kubu", password: "12345" };
+    let adminLoggedIn = false;
+
+    document.getElementById("adminLoginForm").addEventListener("submit", (e)=>{
+      e.preventDefault();
+      const u = document.getElementById("admin_user").value;
+      const p = document.getElementById("admin_pass").value;
+      if(u === ADMIN.username && p === ADMIN.password){
+        adminLoggedIn = true;
+        document.getElementById("adminLoginCard").style.display = "none";
+        document.getElementById("adminDashboard").style.display = "block";
+        loadAdminPanel();
+        showSection("admin");
+        alert("Welcome Admin!");
+      }else{
+        alert("Invalid admin credentials.");
+      }
+    });
+
+    document.getElementById("adminLogoutBtn").addEventListener("click", ()=>{
+      adminLoggedIn = false;
+      document.getElementById("adminLoginCard").style.display = "block";
+      document.getElementById("adminDashboard").style.display = "none";
+      document.getElementById("adminLoginForm").reset();
+      showSection("home");
+      alert("Admin logged out.");
+    });
+
+    function loadAdminPanel(){
+      const students = loadStudents();
+      const tbody = document.getElementById("studentsTableBody");
+      tbody.innerHTML = "";
+      students.forEach((s, idx)=>{
+        const tr = document.createElement("tr");
+
+        const subjShort = s.subjects.slice(0,4).join(", ") + (s.subjects.length>4? " ...": "");
+
+        tr.innerHTML = `
+          <td>${s.regNo}</td>
+          <td>${s.name}</td>
+          <td>${s.stream}</td>
+          <td title="${s.subjects.join(", ")}">${subjShort}</td>
+          <td>${s.feeDisplay}</td>
+          <td><span class="pill ${ s.status==='Pending' ? 'status-pending' : s.status==='Approved' ? 'status-approved' : 'status-rejected' }">${s.status}</span></td>
+          <td class="actions">
+            <button class="btn" data-act="view" data-idx="${idx}">View</button>
+            <button class="btn" data-act="approve" data-idx="${idx}">Approve</button>
+            <button class="btn warn" data-act="reject" data-idx="${idx}">Reject</button>
+            <button class="btn secondary" data-act="message" data-idx="${idx}">Message</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // attach delegated handlers
+      tbody.querySelectorAll("button").forEach(btn=>{
+        btn.addEventListener("click", adminTableHandler);
+      });
+    }
+
+    function adminTableHandler(e){
+      const act = e.currentTarget.getAttribute("data-act");
+      const idx = Number(e.currentTarget.getAttribute("data-idx"));
+      let students = loadStudents();
+      const student = students[idx];
+      if(!student) return alert("Student not found.");
+
+      if(act === "view"){
+        // show details in an alert (or modal) - keep simple
+        alert(
+          `Name: ${student.name}\nReg No: ${student.regNo}\nStream: ${student.stream}\nFee: ${student.feeDisplay}\nStatus: ${student.status}\nSubjects: ${student.subjects.join(", ")}`
+        );
+      } else if(act === "approve"){
+        if(confirm(`Approve ${student.name} (${student.regNo})?`)){
+          student.status = "Approved";
+          students[idx] = student;
+          saveStudents(students);
+          loadAdminPanel();
+          // send auto-message to student
+          sendSystemMessageToStudent(student.regNo, `Your registration has been Approved by Admin.`);
+          alert("Student approved.");
+        }
+      } else if(act === "reject"){
+        const reason = prompt("Enter a short reason for rejection (optional):", "Not eligible");
+        if(reason !== null){
+          student.status = "Rejected";
+          students[idx] = student;
+          saveStudents(students);
+          loadAdminPanel();
+          sendSystemMessageToStudent(student.regNo, `Your registration has been Rejected by Admin. Reason: ${reason}`);
+          alert("Student rejected.");
+        }
+      } else if(act === "message"){
+        const text = prompt(`Enter message to send to ${student.name}:`);
+        if(text && text.trim()){
+          sendMessageToStudent(student.regNo, "Admin", text.trim());
+          alert("Message sent.");
+        }
+      }
+    }
+
+    function sendMessageToStudent(regNo, from, text){
+      const students = loadStudents();
+      const idx = students.findIndex(s => s.regNo === regNo);
+      if(idx === -1) return alert("Student not found.");
+      const date = new Date().toLocaleString();
+      students[idx].messages = students[idx].messages || [];
+      students[idx].messages.push({from, text, date});
+      saveStudents(students);
+      // if current student is the same and logged in, refresh view
+      if(currentStudent && currentStudent.regNo === regNo){
+        currentStudent = students[idx];
+        refreshStudentMessages();
+      }
+    }
+
+    function sendSystemMessageToStudent(regNo, text){
+      sendMessageToStudent(regNo, "System(Admin)", text);
+    }
+
+    // news post
+    document.getElementById("newsForm").addEventListener("submit", (e)=>{
+      e.preventDefault();
+      const title = document.getElementById("news_title").value.trim();
+      const date = document.getElementById("news_date").value.trim() || new Date().toLocaleDateString();
+      const body = document.getElementById("news_body").value.trim();
+      if(!title || !body) return alert("Please provide title and body for the news.");
+      const news = loadNews();
+      news.push({title, date, body});
+      saveNews(news);
+      document.getElementById("newsForm").reset();
+      alert("News posted.");
+      // if student logged in, refresh their news view
+      if(currentStudent) refreshStudentNews();
+    });
+
+    // admin auto controls area (counts etc.)
+    function refreshAdminControls(){
+      const students = loadStudents();
+      const total = students.length;
+      const approved = students.filter(s => s.status==="Approved").length;
+      const pending = students.filter(s => s.status==="Pending").length;
+      const rejected = students.filter(s => s.status==="Rejected").length;
+      const html = `<div class="muted small">Total: ${total} | Approved: ${approved} | Pending: ${pending} | Rejected: ${rejected}</div>`;
+      document.getElementById("adminControls").innerHTML = html;
+    }
+
+    // tie loadAdminPanel to refreshAdminControls after load
+    const originalLoadAdminPanel = loadAdminPanel;
+    loadAdminPanel = function(){
+      refreshAdminControls();
+      originalLoadAdminPanel();
+    }
+
+    /**********************
+     * Utility: ensure students table updates when data changes externally
+     **********************/
+    // When page loads, ensure tables reflect stored data
+    document.addEventListener("DOMContentLoaded", ()=>{
+      // ensure keys exist
+      if(!localStorage.getItem(STORAGE_KEYS.STUDENTS)) saveStudents([]);
+      if(!localStorage.getItem(STORAGE_KEYS.NEWS)) saveNews([]);
+      // if admin dashboard visible and logged in, refresh
+      if(adminLoggedIn) loadAdminPanel();
+    });
+
+    /**********************
+     * Extra: send broadcast message to all students (optionally)
+     **********************/
+    // you can add a broadcast function if needed:
+    function broadcastMessage(text){
+      const students = loadStudents();
+      const date = new Date().toLocaleString();
+      students.forEach(s => {
+        s.messages = s.messages || [];
+        s.messages.push({from:"Admin (Broadcast)", text, date});
+      });
+      saveStudents(students);
+    }
+
+    /**********************
+     * End of script
+     **********************/
+  </script>
+</body>
+</html>
